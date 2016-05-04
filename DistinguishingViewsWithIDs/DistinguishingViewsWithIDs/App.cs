@@ -9,24 +9,20 @@ namespace DistinguishingViewsWithIDs
 {
     public class App : Application
     {
+        const string displayLabelText = "displayLabelText";
+
         public App()
         {
-            // The root page of your application
-            MainPage = new ContentPage
+            if (Properties.ContainsKey(displayLabelText))
             {
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children = {
-                        new Label {
-                            XAlign = TextAlignment.Center,
-                            Text = "Welcome to Xamarin Forms!"
-                        }
-                    }
-                }
-            };
+                DisplayLabelText = (string)Properties[displayLabelText];
+            }
+            
+            MainPage = new PersistentKeypadPage();
         }
 
+        public string DisplayLabelText { set; get; }
+        
         protected override void OnStart()
         {
             // Handle when your app starts
@@ -35,6 +31,7 @@ namespace DistinguishingViewsWithIDs
         protected override void OnSleep()
         {
             // Handle when your app sleeps
+            Properties[displayLabelText] = DisplayLabelText;
         }
 
         protected override void OnResume()
